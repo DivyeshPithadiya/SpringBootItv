@@ -1,28 +1,42 @@
 package com.springBootAndheri.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.springBootAndheri.models.Employee;
+import com.springBootAndheri.services.Services;
 
 @RestController
 public class EmpController {
-	
-	@GetMapping("/hello")
-	public String hello() {
-		return "Hello, This is an API!";
+
+	@Autowired
+	Services service;
+
+	@GetMapping("/getemployees")
+	public List<Employee> getEmployees() {
+		return this.service.getEmployees();
 	}
-	
-	// http://localhost:9090/sum/2/2
-	@GetMapping("/sum/{n1}/{n2}")
-	public String sum(@PathVariable("n1") int num1,@PathVariable("n2") int num2) {
-		return "Sum is: "+(num1+num2);
+
+	@PostMapping("/saveemployee")
+	public List<Employee> saveEmployee(@RequestBody Employee employee) {
+		return this.service.saveEmployee(employee);
 	}
-	
-	// http://localhost:9090/multi?num1=2&num2=2
-	@GetMapping("/multi")
-	public String multi(@RequestParam("num1") int num1,@RequestParam("num2") int num2) {
-		return "Multiplication is: "+(num1*num2);
+
+	@PutMapping("/updateemployee")
+	public List<Employee> updateEmployee(@RequestBody Employee employee) {
+		return this.service.updateEmployee(employee);
+	}
+
+	@DeleteMapping("/deleteemployee")
+	public List<Employee> deleteEmployee(@RequestBody Employee employee) {
+		return this.service.deleteEmployee(employee);
 	}
 
 }
